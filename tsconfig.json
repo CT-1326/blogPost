@@ -1,21 +1,26 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "removeComments": true,
+    "module": "commonjs", // 모듈 시스템
+    "target": "ES2021", // 컴파일 버전
+    "declaration": true, // 타입 커스텀 관리 파일 분리
+    "sourceMap": true, // 소스맵 생성
+    "removeComments": true, // 소스 주석문 제거
+    // 데코레이터 설정
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./", // 기본 경로
+    "paths": { // 모듈 경로 매핑
+      
+    },
+    "outDir": "./dist", // 빌드 경로
+    "resolveJsonModule": true, // JSON import
+    "skipLibCheck": true, // 선언 파일 타입 체크 생략 (컴파일 시간 단축)
+    "forceConsistentCasingInFileNames": true, // 파일명 대소문자 판별
     "incremental": true,
-    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
     "strictNullChecks": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
   }
 }
