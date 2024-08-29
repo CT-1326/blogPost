@@ -16,11 +16,8 @@
     "resolveJsonModule": true, // JSON import
     "skipLibCheck": true, // 선언 파일 타입 체크 생략 (컴파일 시간 단축)
     "forceConsistentCasingInFileNames": true, // 파일명 대소문자 판별
-    "incremental": true,
-    "allowSyntheticDefaultImports": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "incremental": true, // 컴파일 결과 캐싱
+    "allowSyntheticDefaultImports": true, // 기본 export 없는 모듈 기본 호출 허용
+    "strict": true, // 타입 체크
   }
 }
