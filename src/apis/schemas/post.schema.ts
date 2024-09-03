@@ -6,20 +6,20 @@ export type PostDocument = HydratedDocument<Post>;
 
 @Schema()
 export class Post {
-  @Prop({ required: true })
+  @Prop({ required: true, index: true })
   title: string;
 
   @Prop({ required: true })
   content: string;
 
-  @Prop({ type: Types.ObjectId, ref: User.name, required: true })
+  @Prop({ type: Types.ObjectId, ref: User.name, required: true, index: true })
   author: Types.ObjectId;
 
-  @Prop({ type: [String], default: [] })
-  tags: string[];
-
-  @Prop()
+  @Prop({ index: true })
   category: string;
+
+  @Prop({ type: [String], default: [], index: true })
+  tags: string[];
 
   @Prop({ type: [{ type: Types.ObjectId, ref: Comment.name }], default: [] })
   comments: Types.ObjectId[];
