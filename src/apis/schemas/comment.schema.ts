@@ -8,16 +8,16 @@ export type CommentDocument = HydratedDocument<Comment>;
 @Schema()
 export class Comment {
   @Prop({ required: true })
-  content: string;
+  content!: string;
 
   @Prop({ type: Types.ObjectId, ref: Post.name, required: true, index: true })
-  post: Types.ObjectId;
+  post!: Types.ObjectId;
 
   @Prop({ type: Types.ObjectId, ref: User.name, required: true, index: true })
-  author: Types.ObjectId;
+  author!: Types.ObjectId;
 
   @Prop({ default: Date.now })
-  createdAt: Date;
+  createdAt!: Date;
 }
 
 export const CommentSchema = SchemaFactory.createForClass(Comment);
