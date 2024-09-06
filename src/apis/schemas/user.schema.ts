@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 export type UserDocument = HydratedDocument<User>;
 
-@Schema()
+@Schema({ versionKey: false }) // 버전 관리의 _v 필드 제거
 export class User {
   @Prop({ required: true, unique: true })
   username!: string;
