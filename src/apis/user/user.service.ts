@@ -8,6 +8,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../schemas/user.schema';
 import { Model } from 'mongoose';
 import { CreateUserInput } from '../dto/createUser.dto';
+import { UpdateUserInput } from '../dto/updateUser.dto';
 
 @Injectable()
 export class UserService {
@@ -27,7 +28,7 @@ export class UserService {
   }
 
   async findAll(): Promise<User[]> {
-    const result = await this.userModel.find().exec();
+    const result = await this.userModel.find({ isdeleted: false }).exec();
     if (result.length === 0) {
       throw new NotFoundException('서버에 등록된 사용자가 없습니다.');
     }
@@ -38,6 +39,28 @@ export class UserService {
     const result = await this.userModel.findOne({ username }).exec();
     if (result === null) {
       throw new NotFoundException('해당 사용자는 존재하지 않습니다');
+    }
+    return result;
+  }
+
+  async modify(username: string, modifyUser: UpdateUserInput): Promise<User> {
+    const result = await this.userModel.findOneAndUpdate(
+      { username },
+      modifyUser,
+    );
+    if (result === null) {
+      throw new NotFoundException('해당 사용자는 존재하지 않습니다.');
+    }
+    return result;
+  }
+
+  async delete(username: string): Promise<User> {
+    const result = await this.userModel.findOneAndUpdate(
+      { username },
+      { isdeleted: true },
+    );
+    if (result === null) {
+      throw new NotFoundException('해당 사용자는 존재하지 않습니다.');
     }
     return result;
   }
