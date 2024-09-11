@@ -5,10 +5,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from '../schemas/user.schema';
 import { Model } from 'mongoose';
-import { CreateUserInput } from '../dto/createUser.dto';
-import { UpdateUserInput } from '../dto/updateUser.dto';
+import { User, UserDocument } from '@schemas/user.schema';
+import { CreateUserInput } from '@dto/createUser.dto';
+import { UpdateUserInput } from '@dto/updateUser.dto';
 
 @Injectable()
 export class UserService {

@@ -9,8 +9,13 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "baseUrl": "./", // 기본 경로
-    "paths": { // 모듈 경로 매핑
-      
+    "paths": { // 모듈 경로 별칭 매핑
+      "@schemas/*" : [
+        "src/apis/schemas/*"
+      ],
+      "@dto/*" : [
+        "src/apis/dto/*"
+      ]
     },
     "outDir": "./dist", // 빌드 경로
     "resolveJsonModule": true, // JSON import
