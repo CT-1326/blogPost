@@ -64,4 +64,12 @@ export class UserService {
     }
     return result;
   }
+
+  async findUser(email: string): Promise<User> {
+    const result = await this.userModel.findOne({ email: email }).exec();
+    if (result === null) {
+      throw new NotFoundException('해당 이메일의 사용자는 존재하지 않습니다');
+    }
+    return result;
+  }
 }

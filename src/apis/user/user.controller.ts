@@ -11,6 +11,7 @@ import { UserService } from './user.service';
 import { User } from '@schemas/user.schema';
 import { CreateUserInput } from '@dto/createUser.dto';
 import { UpdateUserInput } from '@dto/updateUser.dto';
+import * as bcrypt from 'bcrypt';
 
 @Controller('user')
 export class UserController {
@@ -18,7 +19,13 @@ export class UserController {
 
   @Post()
   async create(@Body() createUser: CreateUserInput): Promise<User | undefined> {
-    return this.userService.create(createUser);
+    // 비밀번호 해싱처리 후 새 객체로 서비스에 전달
+    const hashedPassword = await bcrypt.hash(createUser.password, 10);
+    const user = {
+      ...createUser,
+      password: hashedPassword,
+    };
+    return this.userService.create(user);
   }
 
   @Get()
