@@ -34,7 +34,7 @@ export class UserController {
   }
 
   @Get(':name')
-  async findOne(@Param('name') username: string): Promise<User | null> {
+  async findOne(@Param('name') username: string): Promise<User> {
     return this.userService.findOne(username);
   }
 

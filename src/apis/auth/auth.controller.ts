@@ -30,7 +30,6 @@ export class AuthController {
       }
 
       this.authService.setRefreshToken(user, res);
-
       const jwt = this.authService.getAccessToken(user);
       return res.status(200).send(jwt);
     }

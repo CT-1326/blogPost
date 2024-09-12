@@ -35,7 +35,7 @@ export class UserService {
     return result;
   }
 
-  async findOne(username: string): Promise<User | null> {
+  async findOne(username: string): Promise<User> {
     const result = await this.userModel.findOne({ username }).exec();
     if (result === null) {
       throw new NotFoundException('해당 사용자는 존재하지 않습니다');
