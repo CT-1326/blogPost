@@ -4,14 +4,17 @@ import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '@schemas/user.schema';
-import { UserService } from '../user/user.service';
+import { UserModule } from '../user/user.module';
+import { JwtRefreshStretagy } from './refresh.strategy';
+import { JwtAccessStrategy } from './access.strategy';
 
 @Module({
   imports: [
     JwtModule.register({}),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    UserModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, UserService],
+  providers: [AuthService, JwtRefreshStretagy, JwtAccessStrategy],
 })
 export class AuthModule {}

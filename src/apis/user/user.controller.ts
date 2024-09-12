@@ -6,12 +6,14 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from '@schemas/user.schema';
 import { CreateUserInput } from '@dto/createUser.dto';
 import { UpdateUserInput } from '@dto/updateUser.dto';
 import * as bcrypt from 'bcrypt';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('user')
 export class UserController {
@@ -38,6 +40,7 @@ export class UserController {
     return this.userService.findOne(username);
   }
 
+  @UseGuards(AuthGuard('access'))
   @Put(':name')
   async modify(
     @Param('name') username: string,
