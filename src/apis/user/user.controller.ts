@@ -12,7 +12,7 @@ import { UserService } from './user.service';
 import { User } from '@schemas/user.schema';
 import { CreateUserInput } from '@dto/createUser.dto';
 import { UpdateUserInput } from '@dto/updateUser.dto';
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('user')
@@ -46,6 +46,8 @@ export class UserController {
     @Param('name') username: string,
     @Body() modifyUser: UpdateUserInput,
   ): Promise<User> {
+    // 변경한 비밀번호 역시 해싱처리 후 서비스에 전달
+    modifyUser.password = await bcrypt.hash(modifyUser.password, 10);
     return this.userService.modify(username, modifyUser);
   }
 

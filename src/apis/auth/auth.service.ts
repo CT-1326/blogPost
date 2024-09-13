@@ -27,10 +27,10 @@ export class AuthService {
       },
       {
         secret: process.env.REFRESH_TOKEN_SECRET_KEY,
-        expiresIn: '2w',
+        expiresIn: '2d',
       },
     );
-    res.setHeader('Set-Cookie', `refreshToken={${refreshToken}}`);
+    res.setHeader('Set-Cookie', `refreshToken=${refreshToken}`);
     return;
   }
 }

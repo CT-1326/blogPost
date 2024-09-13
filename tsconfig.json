@@ -24,5 +24,6 @@
     "incremental": true, // 컴파일 결과 캐싱
     "allowSyntheticDefaultImports": true, // 기본 export 없는 모듈 기본 호출 허용
     "strict": true, // 타입 체크
+    "esModuleInterop" : true // CommonJS와 ES6 모듈 호환
   }
 }

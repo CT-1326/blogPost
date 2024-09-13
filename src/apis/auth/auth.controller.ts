@@ -2,14 +2,17 @@ import {
   Body,
   Controller,
   Post,
+  Req,
   Res,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
 import { loginInput } from '@dto/loginUser.dto';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -33,5 +36,11 @@ export class AuthController {
       const jwt = this.authService.getAccessToken(user);
       return res.status(200).send(jwt);
     }
+  }
+
+  @UseGuards(AuthGuard('refresh'))
+  @Post('refresh')
+  restoreAccessToken(@Req() req: Request) {
+    return this.authService.getAccessToken({ user: req.user });
   }
 }
