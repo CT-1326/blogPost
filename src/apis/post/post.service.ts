@@ -50,7 +50,9 @@ export class PostService {
   }
 
   async deletePost(id: string): Promise<Post> {
-    const result = await this.postModel.findByIdAndDelete(id).exec();
+    const result = await this.postModel
+      .findByIdAndUpdate(id, { isdeleted: true })
+      .exec();
     if (result === null) {
       throw new NotFoundException('해당 게시물은 존재하지 않습니다.');
     }
