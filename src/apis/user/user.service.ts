@@ -14,10 +14,10 @@ import { UpdateUserInput } from '@dto/updateUser.dto';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async create(input: CreateUserInput): Promise<User | undefined> {
+  async createUser(input: CreateUserInput): Promise<User | undefined> {
     try {
-      const createdUser = new this.userModel(input);
-      return await createdUser.save();
+      const result = new this.userModel(input);
+      return await result.save();
     } catch (err: any) {
       if (err.code === 11000) {
         throw new ConflictException(`이미 존재하는 계정 입니다.`);
@@ -27,7 +27,7 @@ export class UserService {
     }
   }
 
-  async findAll(): Promise<User[]> {
+  async findUsers(): Promise<User[]> {
     const result = await this.userModel.find({ isdeleted: false }).exec();
     if (result.length === 0) {
       throw new NotFoundException('서버에 등록된 사용자가 없습니다.');
@@ -43,7 +43,10 @@ export class UserService {
     return result;
   }
 
-  async modify(username: string, modifyUser: UpdateUserInput): Promise<User> {
+  async modifyUser(
+    username: string,
+    modifyUser: UpdateUserInput,
+  ): Promise<User> {
     const result = await this.userModel.findOneAndUpdate(
       { username },
       modifyUser,
@@ -54,7 +57,7 @@ export class UserService {
     return result;
   }
 
-  async delete(username: string): Promise<User> {
+  async deleteUser(username: string): Promise<User> {
     const result = await this.userModel.findOneAndUpdate(
       { username },
       { isdeleted: true },

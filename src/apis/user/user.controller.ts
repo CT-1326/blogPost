@@ -20,19 +20,21 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async create(@Body() createUser: CreateUserInput): Promise<User | undefined> {
+  async createUser(
+    @Body() createUser: CreateUserInput,
+  ): Promise<User | undefined> {
     // 비밀번호 해싱처리 후 새 객체로 서비스에 전달
     const hashedPassword = await bcrypt.hash(createUser.password, 10);
     const user = {
       ...createUser,
       password: hashedPassword,
     };
-    return this.userService.create(user);
+    return this.userService.createUser(user);
   }
 
   @Get()
-  async findAll(): Promise<User[]> {
-    return this.userService.findAll();
+  async findUsers(): Promise<User[]> {
+    return this.userService.findUsers();
   }
 
   @Get(':name')
@@ -42,17 +44,17 @@ export class UserController {
 
   @UseGuards(AuthGuard('access'))
   @Put(':name')
-  async modify(
+  async modifyUser(
     @Param('name') username: string,
-    @Body() modifyUser: UpdateUserInput,
+    @Body() updateUser: UpdateUserInput,
   ): Promise<User> {
     // 변경한 비밀번호 역시 해싱처리 후 서비스에 전달
-    modifyUser.password = await bcrypt.hash(modifyUser.password, 10);
-    return this.userService.modify(username, modifyUser);
+    updateUser.password = await bcrypt.hash(updateUser.password, 10);
+    return this.userService.modifyUser(username, updateUser);
   }
 
   @Delete(':name')
-  async delete(@Param('name') username: string): Promise<User> {
-    return this.userService.delete(username);
+  async deleteUser(@Param('name') username: string): Promise<User> {
+    return this.userService.deleteUser(username);
   }
 }
