@@ -34,7 +34,7 @@ export class PostController {
 
   @UseGuards(AuthGuard('access'))
   @Get(':id')
-  async findPost(@Param('id') id: string): Promise<PostModel | null> {
+  async findPost(@Param('id') id: string): Promise<PostModel> {
     return this.postService.findPost(id);
   }
 
