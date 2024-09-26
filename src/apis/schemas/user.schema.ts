@@ -20,8 +20,16 @@ export class User {
   @Prop({ default: Date.now })
   createAt!: Date;
 
+  @Prop({ default: Date.now })
+  updateAt!: Date;
+
   @Prop({ default: false })
   isdeleted!: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.pre('findOneAndUpdate', function (next) {
+  this.set({ updateAt: new Date() });
+  next();
+});

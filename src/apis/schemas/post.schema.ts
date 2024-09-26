@@ -38,3 +38,8 @@ export class Post {
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
+
+PostSchema.pre('findOneAndUpdate', function (next) {
+  this.set({ updateAt: new Date() });
+  next();
+});
