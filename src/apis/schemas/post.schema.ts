@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
-import { User } from './user.schema';
 
 export type PostDocument = HydratedDocument<Post>;
 
@@ -12,7 +11,7 @@ export class Post {
   @Prop({ required: true })
   content!: string;
 
-  @Prop({ type: Types.ObjectId, ref: User.name, required: true, index: true })
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true, index: true })
   author!: Types.ObjectId;
 
   @Prop({ index: true })
@@ -21,8 +20,8 @@ export class Post {
   @Prop({ type: [String], index: true })
   tags!: string[];
 
-  // @Prop({ type: [{ type: Types.ObjectId, ref: Comment.name }], default: [] })
-  // comments!: Types.ObjectId[];
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Comment' }], default: [] })
+  comments!: Types.ObjectId[];
 
   // @Prop({ type: [{ type: Types.ObjectId, ref: User.name }], default: [] })
   // likes!: Types.ObjectId[];

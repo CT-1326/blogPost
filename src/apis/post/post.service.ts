@@ -16,7 +16,7 @@ export class PostService {
   async createPost(input: CreatePostInput): Promise<Post> {
     try {
       const result = new this.postModel(input);
-      return result.save();
+      return await result.save();
     } catch (err) {
       console.error(err);
       throw new InternalServerErrorException('서버 에러 발생!');
@@ -24,7 +24,10 @@ export class PostService {
   }
 
   async findPosts(): Promise<Post[]> {
-    const result = await this.postModel.find({ isdeleted: false }).exec();
+    const result = await this.postModel
+      .find({ isdeleted: false })
+      .populate('author')
+      .exec();
     if (result.length === 0) {
       throw new NotFoundException('서버에 등록된 게시물이 없습니다.');
     }
@@ -32,7 +35,7 @@ export class PostService {
   }
 
   async findPost(id: string): Promise<Post> {
-    const result = await this.postModel.findById(id).exec();
+    const result = await this.postModel.findById(id).populate('author').exec();
     if (result === null) {
       throw new NotFoundException('해당 게시물은 존재하지 않습니다.');
     }
