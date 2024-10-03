@@ -13,9 +13,13 @@ import { Model } from 'mongoose';
 export class PostService {
   constructor(@InjectModel(Post.name) private postModel: Model<Post>) {}
 
-  async createPost(input: CreatePostInput): Promise<Post> {
+  async createPost(input: CreatePostInput, user: any): Promise<Post> {
     try {
-      const result = new this.postModel(input);
+      const newPost = new this.postModel({
+        ...input,
+        author: user.id,
+      });
+      const result = new this.postModel(newPost);
       return await result.save();
     } catch (err) {
       console.error(err);

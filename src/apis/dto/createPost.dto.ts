@@ -1,5 +1,4 @@
-import { IsArray, IsMongoId, IsOptional, IsString } from 'class-validator';
-import { Types } from 'mongoose';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 
 export class CreatePostInput {
   @IsString()
@@ -7,9 +6,6 @@ export class CreatePostInput {
 
   @IsString()
   content!: string;
-
-  @IsMongoId()
-  author!: Types.ObjectId;
 
   @IsOptional()
   @IsString()

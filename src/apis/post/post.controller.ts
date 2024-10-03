@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { PostService } from './post.service';
@@ -13,6 +14,7 @@ import { CreatePostInput } from '@dto/createPost.dto';
 import { Post as PostModel } from '@schemas/post.schema';
 import { AuthGuard } from '@nestjs/passport';
 import { UpdatePostInput } from '@dto/updatePost.dto';
+import { Request } from 'express';
 
 @Controller('post')
 export class PostController {
@@ -21,9 +23,10 @@ export class PostController {
   @UseGuards(AuthGuard('access'))
   @Post()
   async createPost(
+    @Req() req: Request,
     @Body() createPostInput: CreatePostInput,
   ): Promise<PostModel> {
-    return this.postService.createPost(createPostInput);
+    return this.postService.createPost(createPostInput, req.user);
   }
 
   @UseGuards(AuthGuard('access'))
