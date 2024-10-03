@@ -1,19 +1,19 @@
 import { IsArray, IsOptional, IsString } from 'class-validator';
 
 export class UpdatePostInput {
-  @IsString()
   @IsOptional()
+  @IsString()
   title!: string;
 
-  @IsString()
   @IsOptional()
+  @IsString()
   content!: string;
 
-  @IsString()
   @IsOptional()
+  @IsString()
   category?: string;
 
-  @IsArray()
   @IsOptional()
+  @IsArray()
   tags?: string;
 }

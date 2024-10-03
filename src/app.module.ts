@@ -7,6 +7,7 @@ import { MongooseConfigService } from './config/MongooseConfigService';
 import { UserModule } from './apis/user/user.module';
 import { AuthModule } from './apis/auth/auth.module';
 import { PostModule } from './apis/post/post.module';
+import { CommentModule } from './apis/comment/comment.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { PostModule } from './apis/post/post.module';
     UserModule,
     AuthModule,
     PostModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

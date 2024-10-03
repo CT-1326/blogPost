@@ -19,8 +19,7 @@ export class PostService {
         ...input,
         author: user.id,
       });
-      const result = new this.postModel(newPost);
-      return await result.save();
+      return await newPost.save();
     } catch (err) {
       console.error(err);
       throw new InternalServerErrorException('서버 에러 발생!');
@@ -39,7 +38,11 @@ export class PostService {
   }
 
   async findPost(id: string): Promise<Post> {
-    const result = await this.postModel.findById(id).populate('author').exec();
+    const result = await this.postModel
+      .findById(id)
+      .populate('author')
+      .populate('comments')
+      .exec();
     if (result === null) {
       throw new NotFoundException('해당 게시물은 존재하지 않습니다.');
     }
