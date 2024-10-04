@@ -14,7 +14,7 @@ export class AuthService {
       },
       {
         secret: process.env.ACCESS_TOKEN_SECRET_KEY,
-        expiresIn: '30m',
+        expiresIn: '60m',
       },
     );
   }

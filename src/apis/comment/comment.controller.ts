@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Delete,
-  Get,
   Param,
   Post,
   Put,
@@ -27,11 +26,6 @@ export class CommentController {
     @Body() createCommentInput: CreateCommentInput,
   ): Promise<Comment> {
     return this.commentService.createComment(createCommentInput, req.user);
-  }
-  @UseGuards(AuthGuard('access'))
-  @Get(':id')
-  async findComments(@Param('id') id: string): Promise<Comment[]> {
-    return this.commentService.findComments(id);
   }
 
   @UseGuards(AuthGuard('access'))
