@@ -14,17 +14,14 @@ export class Post {
   @Prop({ type: Types.ObjectId, ref: 'User', required: true, index: true })
   author!: Types.ObjectId;
 
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Comment' }], default: [] })
+  comments!: Types.ObjectId[];
+
   @Prop({ index: true })
   category!: string;
 
   @Prop({ type: [String], index: true })
   tags!: string[];
-
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Comment' }], default: [] })
-  comments!: Types.ObjectId[];
-
-  // @Prop({ type: [{ type: Types.ObjectId, ref: User.name }], default: [] })
-  // likes!: Types.ObjectId[];
 
   @Prop({ default: Date.now })
   createAt!: Date;

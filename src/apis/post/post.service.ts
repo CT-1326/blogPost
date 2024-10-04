@@ -41,7 +41,12 @@ export class PostService {
     const result = await this.postModel
       .findById(id)
       .populate('author', 'username')
-      .populate('comments', { isdeleted: false })
+      .populate({
+        // 배열 구조의 populate 형식
+        path: 'comments',
+        model: 'Comment',
+        select: 'content author',
+      })
       .exec();
     if (result === null) {
       throw new NotFoundException('해당 게시물은 존재하지 않습니다.');
@@ -51,7 +56,7 @@ export class PostService {
 
   async modifyPost(id: string, modifyPost: UpdatePostInput): Promise<Post> {
     const result = await this.postModel
-      .findByIdAndUpdate(id, modifyPost)
+      .findByIdAndUpdate(id, modifyPost, { new: true })
       .exec();
     if (result === null) {
       throw new NotFoundException('해당 게시물은 존재하지 않습니다.');
@@ -61,7 +66,7 @@ export class PostService {
 
   async deletePost(id: string): Promise<Post> {
     const result = await this.postModel
-      .findByIdAndUpdate(id, { isdeleted: true })
+      .findByIdAndUpdate(id, { isdeleted: true }, { new: true })
       .exec();
     if (result === null) {
       throw new NotFoundException('해당 게시물은 존재하지 않습니다.');

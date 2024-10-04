@@ -50,6 +50,7 @@ export class UserService {
     const result = await this.userModel.findOneAndUpdate(
       { username },
       modifyUser,
+      { new: true },
     );
     if (result === null) {
       throw new NotFoundException('해당 사용자는 존재하지 않습니다.');
@@ -61,6 +62,7 @@ export class UserService {
     const result = await this.userModel.findOneAndUpdate(
       { username },
       { isdeleted: true },
+      { new: true },
     );
     if (result === null) {
       throw new NotFoundException('해당 사용자는 존재하지 않습니다.');

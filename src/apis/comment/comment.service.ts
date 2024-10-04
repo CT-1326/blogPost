@@ -14,33 +14,22 @@ export class CommentService {
   ) {}
 
   async createComment(input: CreateCommentInput, user: any): Promise<Comment> {
+    const post = await this.postModel.findById(input.post);
+    if (!post) {
+      throw new NotFoundException('해당 게시물은 존재하지 않습니다.');
+    }
     const newComment = new this.commentModel({
       ...input,
       author: user.id,
     });
-    const updatePostComment = await this.postModel
+    const result = await newComment.save();
+    await this.postModel
       .findByIdAndUpdate(input.post, {
         $push: {
-          comments: {
-            content: input.content,
-            author: user.id,
-          },
+          comments: result.id,
         },
       })
       .exec();
-    if (updatePostComment === null) {
-      throw new NotFoundException('해당 게시물은 존재하지 않습니다.');
-    }
-    return await newComment.save();
-  }
-
-  async findComments(id: string): Promise<Comment[]> {
-    const result = await this.commentModel
-      .find({ post: id, isdeleted: false })
-      .exec();
-    if (result === null) {
-      throw new NotFoundException('해당 게시물은 존재하지 않습니다.');
-    }
     return result;
   }
 
@@ -49,7 +38,7 @@ export class CommentService {
     modifyComment: UpdateCommentInput,
   ): Promise<Comment> {
     const result = await this.commentModel
-      .findByIdAndUpdate(id, modifyComment)
+      .findByIdAndUpdate(id, modifyComment, { new: true })
       .exec();
     if (result === null) {
       throw new NotFoundException('해당 댓글은 존재하지 않습니다.');
@@ -59,7 +48,7 @@ export class CommentService {
 
   async deleteComment(id: string): Promise<Comment> {
     const result = await this.commentModel
-      .findByIdAndUpdate(id, { isdeleted: true })
+      .findByIdAndUpdate(id, { isdeleted: true }, { new: true })
       .exec();
     if (result === null) {
       throw new NotFoundException('해당 댓글은 존재하지 않습니다.');
