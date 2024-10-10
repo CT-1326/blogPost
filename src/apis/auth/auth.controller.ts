@@ -7,7 +7,7 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { UserService } from '../user/user.service';
+import { UserService } from '@user/user.service';
 import { AuthService } from './auth.service';
 import { loginInput } from '@dto/loginUser.dto';
 import { Request, Response } from 'express';
@@ -31,7 +31,6 @@ export class AuthController {
       if (!isAuth) {
         throw new UnauthorizedException('비밀번호가 일치하지 않습니다.');
       }
-
       this.authService.setRefreshToken(user, res);
       const jwt = this.authService.getAccessToken(user);
       return res.status(200).send(jwt);
@@ -41,6 +40,6 @@ export class AuthController {
   @UseGuards(AuthGuard('refresh'))
   @Post('refresh')
   restoreAccessToken(@Req() req: Request) {
-    return this.authService.getAccessToken({ user: req.user });
+    return this.authService.getAccessToken(req.user);
   }
 }
