@@ -19,11 +19,11 @@
       "@user/*" : [
         "src/apis/user/*"
       ],
-      "@post/*" : [
-        "src/apis/post/*"
-      ],
       "@auth/*" : [
         "src/apis/auth/*"
+      ],
+      "@post/*" : [
+        "src/apis/post/*"
       ],
       "@comment/*" : [
         "src/apis/comment/*"
