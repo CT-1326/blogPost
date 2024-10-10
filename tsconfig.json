@@ -15,6 +15,18 @@
       ],
       "@dto/*" : [
         "src/apis/dto/*"
+      ],
+      "@user/*" : [
+        "src/apis/user/*"
+      ],
+      "@post/*" : [
+        "src/apis/post/*"
+      ],
+      "@auth/*" : [
+        "src/apis/auth/*"
+      ],
+      "@comment/*" : [
+        "src/apis/comment/*"
       ]
     },
     "outDir": "./dist", // 빌드 경로

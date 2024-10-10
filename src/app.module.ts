@@ -4,10 +4,10 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseConfigService } from './config/MongooseConfigService';
-import { UserModule } from './apis/user/user.module';
-import { AuthModule } from './apis/auth/auth.module';
-import { PostModule } from './apis/post/post.module';
-import { CommentModule } from './apis/comment/comment.module';
+import { UserModule } from '@user/user.module';
+import { AuthModule } from '@auth/auth.module';
+import { PostModule } from '@post/post.module';
+import { CommentModule } from '@comment/comment.module';
 
 @Module({
   imports: [
