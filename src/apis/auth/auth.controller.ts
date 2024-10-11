@@ -25,7 +25,7 @@ export class AuthController {
   async login(@Body() input: loginInput, @Res() res: Response) {
     const { email, password } = input;
 
-    const user = await this.userService.findUser(email);
+    const user = await this.userService.findOne(email);
     if (user) {
       const isAuth = await bcrypt.compare(password, user.password);
       if (!isAuth) {

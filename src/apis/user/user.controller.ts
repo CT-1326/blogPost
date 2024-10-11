@@ -37,9 +37,9 @@ export class UserController {
     return this.userService.findUsers();
   }
 
-  @Get(':name')
-  async findOne(@Param('name') username: string): Promise<User> {
-    return this.userService.findOne(username);
+  @Get(':email')
+  async findOne(@Param('email') email: string): Promise<User> {
+    return this.userService.findOne(email);
   }
 
   @UseGuards(AuthGuard('access'))
