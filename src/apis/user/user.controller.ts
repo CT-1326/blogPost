@@ -33,8 +33,8 @@ export class UserController {
   }
 
   @Get()
-  async findUsers(): Promise<User[]> {
-    return this.userService.findUsers();
+  async findUser(): Promise<User[]> {
+    return this.userService.findUser();
   }
 
   @Get(':email')
