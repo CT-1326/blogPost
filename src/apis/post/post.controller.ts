@@ -31,14 +31,14 @@ export class PostController {
 
   @UseGuards(AuthGuard('access'))
   @Get()
-  async findPosts(): Promise<PostModel[]> {
-    return this.postService.findPosts();
+  async findPost(): Promise<PostModel[]> {
+    return this.postService.findPost();
   }
 
   @UseGuards(AuthGuard('access'))
   @Get(':id')
-  async findPost(@Param('id') id: string): Promise<PostModel> {
-    return this.postService.findPost(id);
+  async findOne(@Param('id') id: string): Promise<PostModel> {
+    return this.postService.findOne(id);
   }
 
   @UseGuards(AuthGuard('access'))
