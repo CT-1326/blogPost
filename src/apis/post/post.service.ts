@@ -56,9 +56,9 @@ export class PostService {
   }
 
   async modifyPost(id: string, modifyPost: UpdatePostInput): Promise<Post> {
-    const result = await this.postModel
-      .findByIdAndUpdate(id, modifyPost, { new: true })
-      .exec();
+    const result = await this.postModel.findByIdAndUpdate(id, modifyPost, {
+      new: true,
+    });
     if (result === null) {
       throw new NotFoundException('해당 게시물은 존재하지 않습니다.');
     }
@@ -66,9 +66,11 @@ export class PostService {
   }
 
   async deletePost(id: string): Promise<Post> {
-    const result = await this.postModel
-      .findByIdAndUpdate(id, { isdeleted: true }, { new: true })
-      .exec();
+    const result = await this.postModel.findByIdAndUpdate(
+      id,
+      { isdeleted: true },
+      { new: true },
+    );
     if (result === null) {
       throw new NotFoundException('해당 게시물은 존재하지 않습니다.');
     }
