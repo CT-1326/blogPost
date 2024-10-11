@@ -46,8 +46,8 @@ export class CommentService {
     id: string,
     modifyComment: UpdateCommentInput,
   ): Promise<Comment> {
-    const result = await this.commentModel.findByIdAndUpdate(
-      id,
+    const result = await this.commentModel.findOneAndUpdate(
+      { _id: id, isdeleted: false },
       modifyComment,
       { new: true },
     );
@@ -58,8 +58,8 @@ export class CommentService {
   }
 
   async deleteComment(id: string): Promise<Comment> {
-    const result = await this.commentModel.findByIdAndUpdate(
-      id,
+    const result = await this.commentModel.findOneAndUpdate(
+      { _id: id, isdeleted: false },
       { isdeleted: true },
       { new: true },
     );
