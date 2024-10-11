@@ -1,6 +1,10 @@
 import { CreateCommentInput } from '@dto/createComment.dto';
 import { UpdateCommentInput } from '@dto/updateComment.dto';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Comment } from '@schemas/comment.schema';
 import { Post } from '@schemas/post.schema';
@@ -14,32 +18,39 @@ export class CommentService {
   ) {}
 
   async createComment(input: CreateCommentInput, user: any): Promise<Comment> {
-    const post = await this.postModel.findById(input.post);
+    const post = await this.postModel
+      .findOne({ _id: input.post, isdeleted: false })
+      .exec();
     if (!post) {
       throw new NotFoundException('해당 게시물은 존재하지 않습니다.');
     }
-    const newComment = new this.commentModel({
-      ...input,
-      author: user.id,
-    });
-    const result = await newComment.save();
-    await this.postModel
-      .findByIdAndUpdate(input.post, {
+    try {
+      const newComment = new this.commentModel({
+        ...input,
+        author: user.id,
+      });
+      const result = await newComment.save();
+      await this.postModel.findByIdAndUpdate(input.post, {
         $push: {
           comments: result.id,
         },
-      })
-      .exec();
-    return result;
+      });
+      return result;
+    } catch (err) {
+      console.error(err);
+      throw new InternalServerErrorException('서버 에러 발생!');
+    }
   }
 
   async modifyComment(
     id: string,
     modifyComment: UpdateCommentInput,
   ): Promise<Comment> {
-    const result = await this.commentModel
-      .findByIdAndUpdate(id, modifyComment, { new: true })
-      .exec();
+    const result = await this.commentModel.findByIdAndUpdate(
+      id,
+      modifyComment,
+      { new: true },
+    );
     if (result === null) {
       throw new NotFoundException('해당 댓글은 존재하지 않습니다.');
     }
@@ -47,9 +58,11 @@ export class CommentService {
   }
 
   async deleteComment(id: string): Promise<Comment> {
-    const result = await this.commentModel
-      .findByIdAndUpdate(id, { isdeleted: true }, { new: true })
-      .exec();
+    const result = await this.commentModel.findByIdAndUpdate(
+      id,
+      { isdeleted: true },
+      { new: true },
+    );
     if (result === null) {
       throw new NotFoundException('해당 댓글은 존재하지 않습니다.');
     }
