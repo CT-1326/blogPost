@@ -47,7 +47,6 @@ export class PostService {
         path: 'comments',
         model: 'Comment',
         select: 'content author',
-        match: { isdeleted: { $in: 'false' } },
       })
       .exec();
     if (result === null) {
