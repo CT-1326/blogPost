@@ -28,7 +28,7 @@ export class UserService {
   }
 
   async findUser(): Promise<User[]> {
-    const result = await this.userModel.find({ isdeleted: false }).exec();
+    const result = await this.userModel.find().exec();
     if (result.length === 0) {
       throw new NotFoundException('서버에 등록된 사용자가 없습니다.');
     }
@@ -48,7 +48,7 @@ export class UserService {
     modifyUser: UpdateUserInput,
   ): Promise<User> {
     const result = await this.userModel.findOneAndUpdate(
-      { username, isdeleted: false },
+      { username },
       modifyUser,
       { new: true },
     );
@@ -60,7 +60,7 @@ export class UserService {
 
   async deleteUser(username: string): Promise<User> {
     const result = await this.userModel.findOneAndUpdate(
-      { username, isdeleted: false },
+      { username },
       { isdeleted: true },
       { new: true },
     );

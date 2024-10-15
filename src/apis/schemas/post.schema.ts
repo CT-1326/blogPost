@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument, Query, Types } from 'mongoose';
 
 export type PostDocument = HydratedDocument<Post>;
 
@@ -22,3 +22,9 @@ export class Post {
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
+
+// 조회 미들웨어 설정
+PostSchema.pre(/^find/, function (this: Query<any, Post>, next) {
+  this.where({ isdeleted: false });
+  next();
+});

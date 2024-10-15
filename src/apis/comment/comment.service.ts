@@ -18,9 +18,7 @@ export class CommentService {
   ) {}
 
   async createComment(input: CreateCommentInput, user: any): Promise<Comment> {
-    const post = await this.postModel
-      .findOne({ _id: input.post, isdeleted: false })
-      .exec();
+    const post = await this.postModel.findById(input.post).exec();
     if (!post) {
       throw new NotFoundException('해당 게시물은 존재하지 않습니다.');
     }
@@ -46,8 +44,8 @@ export class CommentService {
     id: string,
     modifyComment: UpdateCommentInput,
   ): Promise<Comment> {
-    const result = await this.commentModel.findOneAndUpdate(
-      { _id: id, isdeleted: false },
+    const result = await this.commentModel.findByIdAndUpdate(
+      id,
       modifyComment,
       { new: true },
     );
@@ -58,8 +56,8 @@ export class CommentService {
   }
 
   async deleteComment(id: string): Promise<Comment> {
-    const result = await this.commentModel.findOneAndUpdate(
-      { _id: id, isdeleted: false },
+    const result = await this.commentModel.findByIdAndUpdate(
+      id,
       { isdeleted: true },
       { new: true },
     );

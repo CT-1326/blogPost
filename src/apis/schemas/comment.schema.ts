@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument, Query, Types } from 'mongoose';
 
 export type CommentDocument = HydratedDocument<Comment>;
 
@@ -19,3 +19,9 @@ export class Comment {
 }
 
 export const CommentSchema = SchemaFactory.createForClass(Comment);
+
+// 조회 미들웨어 설정
+CommentSchema.pre(/^find/, function (this: Query<any, Comment>, next) {
+  this.where({ isdeleted: false });
+  next();
+});

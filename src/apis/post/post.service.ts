@@ -28,7 +28,8 @@ export class PostService {
 
   async findPost(): Promise<Post[]> {
     const result = await this.postModel
-      .find({ isdeleted: false }, 'title')
+      .find()
+      .select('title')
       .populate('author', 'username')
       .exec();
     if (result.length === 0) {
@@ -39,7 +40,7 @@ export class PostService {
 
   async findOne(id: string): Promise<Post> {
     const result = await this.postModel
-      .findOne({ _id: id, isdeleted: false })
+      .findById(id)
       .populate('author', 'username')
       .populate({
         // 배열 구조의 populate 형식
@@ -56,13 +57,9 @@ export class PostService {
   }
 
   async modifyPost(id: string, modifyPost: UpdatePostInput): Promise<Post> {
-    const result = await this.postModel.findOneAndUpdate(
-      { _id: id, isdeleted: false },
-      modifyPost,
-      {
-        new: true,
-      },
-    );
+    const result = await this.postModel.findByIdAndUpdate(id, modifyPost, {
+      new: true,
+    });
     if (result === null) {
       throw new NotFoundException('해당 게시물은 존재하지 않습니다.');
     }
@@ -70,8 +67,8 @@ export class PostService {
   }
 
   async deletePost(id: string): Promise<Post> {
-    const result = await this.postModel.findOneAndUpdate(
-      { _id: id, isdeleted: false },
+    const result = await this.postModel.findByIdAndUpdate(
+      id,
       { isdeleted: true },
       { new: true },
     );
