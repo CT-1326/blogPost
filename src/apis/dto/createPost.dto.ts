@@ -1,4 +1,4 @@
-import { IsArray, IsOptional, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class CreatePostInput {
   @IsString()
@@ -6,12 +6,4 @@ export class CreatePostInput {
 
   @IsString()
   content!: string;
-
-  @IsOptional()
-  @IsString()
-  category?: string;
-
-  @IsOptional()
-  @IsArray()
-  tags?: string;
 }

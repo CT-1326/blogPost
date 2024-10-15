@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 export type UserDocument = HydratedDocument<User>;
 
-@Schema({ versionKey: false }) // 버전 관리의 _v 필드 제거
+@Schema({ versionKey: false, timestamps: true }) // 버전 관리의 _v 필드 제거, 생성&갱신 날짜 옵션 자동 설정
 export class User {
   @Prop({ required: true, unique: true })
   username!: string;
@@ -17,19 +17,8 @@ export class User {
   @Prop({ enum: ['admin', 'user'], default: 'user' })
   role!: string;
 
-  @Prop({ default: Date.now })
-  createAt!: Date;
-
-  @Prop({ default: Date.now })
-  updateAt!: Date;
-
   @Prop({ default: false })
   isdeleted!: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
-UserSchema.pre('findOneAndUpdate', function (next) {
-  this.set({ updateAt: new Date() });
-  next();
-});
