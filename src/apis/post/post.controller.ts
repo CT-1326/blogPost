@@ -17,10 +17,10 @@ import { UpdatePostInput } from '@dto/updatePost.dto';
 import { Request } from 'express';
 
 @Controller('post')
+@UseGuards(AuthGuard('access'))
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
-  @UseGuards(AuthGuard('access'))
   @Post()
   async createPost(
     @Req() req: Request,
@@ -29,19 +29,16 @@ export class PostController {
     return this.postService.createPost(createPostInput, req.user);
   }
 
-  @UseGuards(AuthGuard('access'))
   @Get()
   async findPost(): Promise<PostModel[]> {
     return this.postService.findPost();
   }
 
-  @UseGuards(AuthGuard('access'))
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<PostModel> {
     return this.postService.findOne(id);
   }
 
-  @UseGuards(AuthGuard('access'))
   @Put(':id')
   async modifyPost(
     @Param('id') id: string,
@@ -50,7 +47,6 @@ export class PostController {
     return this.postService.modifyPost(id, updatePost);
   }
 
-  @UseGuards(AuthGuard('access'))
   @Delete(':id')
   async deletePost(@Param('id') id: string): Promise<PostModel> {
     return this.postService.deletePost(id);

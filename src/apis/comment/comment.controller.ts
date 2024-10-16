@@ -16,10 +16,10 @@ import { Request } from 'express';
 import { Comment } from '@schemas/comment.schema';
 
 @Controller('comment')
+@UseGuards(AuthGuard('access'))
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
-  @UseGuards(AuthGuard('access'))
   @Post()
   async createComment(
     @Req() req: Request,
@@ -28,7 +28,6 @@ export class CommentController {
     return this.commentService.createComment(createCommentInput, req.user);
   }
 
-  @UseGuards(AuthGuard('access'))
   @Put(':id')
   async modifyComment(
     @Param('id') id: string,
@@ -37,7 +36,6 @@ export class CommentController {
     return this.commentService.modifyComment(id, updateCommentInput);
   }
 
-  @UseGuards(AuthGuard('access'))
   @Delete(':id')
   async deleteComment(@Param('id') id: string): Promise<Comment> {
     return this.commentService.deleteComment(id);
