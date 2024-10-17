@@ -15,8 +15,8 @@ import { Post as PostModel } from '@schemas/post.schema';
 import { AuthGuard } from '@nestjs/passport';
 import { UpdatePostInput } from '@dto/updatePost.dto';
 import { Request } from 'express';
-import { RolesGuard } from '@auth/roles-guard/roles.guard';
-import { Roles } from '@auth/roles-guard/roles.decorator';
+import { RolesGuard } from '@auth/roles/roles.guard';
+import { Roles } from '@auth/roles/roles.decorator';
 
 @Controller('post')
 @UseGuards(AuthGuard('access'))

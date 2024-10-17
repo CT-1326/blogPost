@@ -14,8 +14,8 @@ import { CreateUserInput } from '@dto/createUser.dto';
 import { UpdateUserInput } from '@dto/updateUser.dto';
 import bcrypt from 'bcrypt';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from '@auth/roles-guard/roles.guard';
-import { Roles } from '@auth/roles-guard/roles.decorator';
+import { RolesGuard } from '@auth/roles/roles.guard';
+import { Roles } from '@auth/roles/roles.decorator';
 
 @Controller('user')
 export class UserController {

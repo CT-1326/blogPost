@@ -14,8 +14,8 @@ import { CreateCommentInput } from '@dto/createComment.dto';
 import { UpdateCommentInput } from '@dto/updateComment.dto';
 import { Request } from 'express';
 import { Comment } from '@schemas/comment.schema';
-import { RolesGuard } from '@auth/roles-guard/roles.guard';
-import { Roles } from '@auth/roles-guard/roles.decorator';
+import { RolesGuard } from '@auth/roles/roles.guard';
+import { Roles } from '@auth/roles/roles.decorator';
 
 @Controller('comment')
 @UseGuards(AuthGuard('access'))
