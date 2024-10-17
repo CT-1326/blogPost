@@ -14,6 +14,8 @@ import { CreateUserInput } from '@dto/createUser.dto';
 import { UpdateUserInput } from '@dto/updateUser.dto';
 import bcrypt from 'bcrypt';
 import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from '@auth/roles-guard/roles.guard';
+import { Roles } from '@auth/roles-guard/roles.decorator';
 
 @Controller('user')
 export class UserController {
@@ -32,11 +34,15 @@ export class UserController {
     return this.userService.createUser(user);
   }
 
+  @UseGuards(AuthGuard('access'), RolesGuard)
+  @Roles('admin')
   @Get()
   async findUser(): Promise<User[]> {
     return this.userService.findUser();
   }
 
+  @UseGuards(AuthGuard('access'), RolesGuard)
+  @Roles('admin')
   @Get(':email')
   async findOne(@Param('email') email: string): Promise<User> {
     return this.userService.findOne(email);
@@ -53,6 +59,8 @@ export class UserController {
     return this.userService.modifyUser(username, updateUser);
   }
 
+  @UseGuards(AuthGuard('access'), RolesGuard)
+  @Roles('admin')
   @Delete(':name')
   async deleteUser(@Param('name') username: string): Promise<User> {
     return this.userService.deleteUser(username);

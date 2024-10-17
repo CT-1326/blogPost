@@ -14,6 +14,8 @@ import { CreateCommentInput } from '@dto/createComment.dto';
 import { UpdateCommentInput } from '@dto/updateComment.dto';
 import { Request } from 'express';
 import { Comment } from '@schemas/comment.schema';
+import { RolesGuard } from '@auth/roles-guard/roles.guard';
+import { Roles } from '@auth/roles-guard/roles.decorator';
 
 @Controller('comment')
 @UseGuards(AuthGuard('access'))
@@ -36,6 +38,8 @@ export class CommentController {
     return this.commentService.modifyComment(id, updateCommentInput);
   }
 
+  @UseGuards(RolesGuard)
+  @Roles('admin')
   @Delete(':id')
   async deleteComment(@Param('id') id: string): Promise<Comment> {
     return this.commentService.deleteComment(id);
