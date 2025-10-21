@@ -2,9 +2,9 @@
   "compilerOptions": {
     "module": "commonjs", // 모듈 시스템
     "target": "ES2021", // 컴파일 버전
-    "declaration": true, // 타입 정의 파일 생성
-    "sourceMap": true, // 소스맵(디버깅 시 원본코드 매핑) 파일 생성
-    "removeComments": true, // 컴파일 소스 주석문 제거
+    "declaration": true, // 타입 커스텀 관리 파일 분리
+    "sourceMap": true, // 소스맵 생성
+    "removeComments": true, // 소스 주석문 제거
     // 데코레이터 설정
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -30,12 +30,12 @@
       ]
     },
     "outDir": "./dist", // 빌드 경로
-    "resolveJsonModule": true, // JSON import 허용
-    "skipLibCheck": true, // 타입 선언 파일 검사 생략(컴파일 시간 단축)
-    "forceConsistentCasingInFileNames": true, // 파일명 대소문자 일관성 강제
+    "resolveJsonModule": true, // JSON import
+    "skipLibCheck": true, // 선언 파일 타입 체크 생략 (컴파일 시간 단축)
+    "forceConsistentCasingInFileNames": true, // 파일명 대소문자 판별
     "incremental": true, // 컴파일 결과 캐싱
-    "allowSyntheticDefaultImports": true, // 기본 export가 없는 모듈 기본 호출 허용
-    "strict": true, // 타입 검사 활성화
+    "allowSyntheticDefaultImports": true, // 기본 export 없는 모듈 기본 호출 허용
+    "strict": true, // 타입 체크
     "esModuleInterop" : true // CommonJS와 ES6 모듈 호환
   }
 }
