@@ -9,12 +9,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Comment } from '@schemas/comment.schema';
 import { Post } from '@schemas/post.schema';
 import { Model } from 'mongoose';
+import { Inject } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class CommentService {
   constructor(
     @InjectModel(Comment.name) private commentModel: Model<Comment>,
     @InjectModel(Post.name) private postModel: Model<Post>,
+    @Inject('RABBITMQ_SERVICE') private readonly client: ClientProxy,
   ) {}
 
   async createComment(input: CreateCommentInput, user: any): Promise<Comment> {
@@ -33,6 +36,7 @@ export class CommentService {
           comments: result.id,
         },
       });
+      this.client.emit('comment.created', { comment: result });
       return result;
     } catch (err) {
       console.error(err);

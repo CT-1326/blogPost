@@ -8,10 +8,15 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Post } from '@schemas/post.schema';
 import { Model } from 'mongoose';
+import { Inject } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class PostService {
-  constructor(@InjectModel(Post.name) private postModel: Model<Post>) {}
+  constructor(
+    @InjectModel(Post.name) private postModel: Model<Post>,
+    @Inject('RABBITMQ_SERVICE') private readonly client: ClientProxy,
+  ) {}
 
   async createPost(input: CreatePostInput, user: any): Promise<Post> {
     try {
@@ -19,7 +24,9 @@ export class PostService {
         ...input,
         author: user.id,
       });
-      return await newPost.save();
+      await newPost.save();
+      this.client.emit('post.created', { post: newPost });
+      return newPost;
     } catch (err) {
       console.error(err);
       throw new InternalServerErrorException('서버 에러 발생!');
@@ -39,6 +46,8 @@ export class PostService {
   }
 
   async findOne(id: string): Promise<Post> {
+    console.log('hi~');
+
     const result = await this.postModel
       .findById(id)
       .populate('author', 'username')
