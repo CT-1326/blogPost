@@ -16,7 +16,7 @@ import { NotificationConsumer } from './notification.consumer';
       },
     ]),
   ],
-  providers: [NotificationConsumer],
+  controllers: [NotificationConsumer],
   exports: [ClientsModule],
 })
 export class NotificationModule {}

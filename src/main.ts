@@ -9,7 +9,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe()); // 입력 값 유효성 검증 전역 파이프 설정
   app.use(cookieParser()); // 쿠키 파싱 설정
   app.connectMicroservice(rabbitMQConfig());
-  //await app.startAllMicroservices();
+  await app.startAllMicroservices();
   await app.listen(3000);
 }
 bootstrap();
