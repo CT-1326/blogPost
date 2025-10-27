@@ -25,7 +25,7 @@ export class PostService {
         author: user.id,
       });
       await newPost.save();
-      this.client.emit('post.created', { post: newPost });
+      this.client.emit('post.created', { post: newPost }); // 게시물 생성 이벤트 발행
       return newPost;
     } catch (err) {
       console.error(err);
@@ -46,8 +46,6 @@ export class PostService {
   }
 
   async findOne(id: string): Promise<Post> {
-    console.log('hi~');
-
     const result = await this.postModel
       .findById(id)
       .populate('author', 'username')

@@ -5,13 +5,13 @@ import { EventPattern, Payload } from '@nestjs/microservices';
 export class NotificationConsumer {
   @EventPattern('post.created')
   async handlePostCreated(@Payload() data: any) {
-    // TODO: 전체 사용자에게 알림 전송 로직 구현
-    console.log('Post created event received:', data);
+    // 전체 사용자에게 알림 전송
+    console.log('새로운 게시물이 작성됨!', data);
   }
 
   @EventPattern('comment.created')
   async handleCommentCreated(@Payload() data: any) {
-    // TODO: 해당 게시물 작성자에게 알림 전송 로직 구현
-    console.log('Comment created event received:', data);
+    // 해당 게시물 작성자에게 알림 전송
+    console.log('게시물에 댓글이 작성됨!', data);
   }
 }

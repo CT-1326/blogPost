@@ -36,7 +36,7 @@ export class CommentService {
           comments: result.id,
         },
       });
-      this.client.emit('comment.created', { comment: result });
+      this.client.emit('comment.created', { comment: result }); // 댓글 생성 이벤트 발행
       return result;
     } catch (err) {
       console.error(err);
