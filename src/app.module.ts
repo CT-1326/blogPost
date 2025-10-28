@@ -8,6 +8,8 @@ import { UserModule } from '@user/user.module';
 import { AuthModule } from '@auth/auth.module';
 import { PostModule } from '@post/post.module';
 import { CommentModule } from '@comment/comment.module';
+import { RedisModule } from '@nestjs-modules/ioredis';
+import { RedisConfigService } from './config/RedisConfigService';
 
 @Module({
   imports: [
@@ -17,6 +19,9 @@ import { CommentModule } from '@comment/comment.module';
     }),
     MongooseModule.forRootAsync({
       useClass: MongooseConfigService, // 몽고DB 연동 설정
+    }),
+    RedisModule.forRootAsync({
+      useClass: RedisConfigService, // 레디스 연동 설정
     }),
     UserModule,
     AuthModule,
