@@ -27,7 +27,10 @@
       ],
       "@comment/*" : [
         "src/apis/comment/*"
-      ]
+      ],
+      "@Notification/*" : [
+        "src/notification/*"
+      ],
     },
     "outDir": "./dist", // 빌드 경로
     "resolveJsonModule": true, // JSON import 허용
