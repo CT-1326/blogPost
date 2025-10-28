@@ -4,7 +4,7 @@ import { CommentService } from './comment.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Comment, CommentSchema } from '@schemas/comment.schema';
 import { Post, PostSchema } from '@schemas/post.schema';
-import { NotificationModule } from '../notification/notification.module';
+import { NotificationModule } from '../../notification/notification.module';
 
 @Module({
   imports: [

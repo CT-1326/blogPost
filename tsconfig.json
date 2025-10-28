@@ -20,7 +20,7 @@
         "src/apis/user/*"
       ],
       "@auth/*" : [
-        "src/apis/auth/*"
+        "src/auth/*"
       ],
       "@post/*" : [
         "src/apis/post/*"
