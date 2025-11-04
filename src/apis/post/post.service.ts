@@ -10,12 +10,15 @@ import { Post } from '@schemas/post.schema';
 import { Model } from 'mongoose';
 import { Inject } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { InjectRedis } from '@nestjs-modules/ioredis';
+import Redis from 'ioredis';
 
 @Injectable()
 export class PostService {
   constructor(
     @InjectModel(Post.name) private postModel: Model<Post>,
     @Inject('RABBITMQ_SERVICE') private readonly client: ClientProxy,
+    @InjectRedis() private readonly redisClient: Redis,
   ) {}
 
   async createPost(input: CreatePostInput, user: any): Promise<Post> {
@@ -46,6 +49,12 @@ export class PostService {
   }
 
   async findOne(id: string): Promise<Post> {
+    const cacheData = await this.redisClient.get(`post:${id}`); // 캐시에서 데이터 조회
+    if (cacheData) {
+      console.log('Cache Hit!');
+      return JSON.parse(cacheData);
+    }
+    console.log('Cache Miss... Fetching from DB');    
     const result = await this.postModel
       .findById(id)
       .populate('author', 'username')
@@ -59,6 +68,7 @@ export class PostService {
     if (result === null) {
       throw new NotFoundException('해당 게시물은 존재하지 않습니다.');
     }
+    await this.redisClient.set(`post:${id}`, JSON.stringify(result), 'EX', 3600); // 1시간 캐싱
     return result;
   }
 
@@ -69,6 +79,8 @@ export class PostService {
     if (result === null) {
       throw new NotFoundException('해당 게시물은 존재하지 않습니다.');
     }
+    await this.redisClient.del(`post:${id}`); // 수정된 게시물 캐시 삭제
+    console.log('Cache Deleted after Update');
     return result;
   }
 
