@@ -28,7 +28,7 @@
       "@comment/*" : [
         "src/apis/comment/*"
       ],
-      "@Notification/*" : [
+      "@notification/*" : [
         "src/notification/*"
       ],
     },
